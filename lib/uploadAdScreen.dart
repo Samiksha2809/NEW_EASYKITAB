@@ -136,7 +136,33 @@ class _UploadAdscreenState extends State<UploadAdscreen> {
                       );
                     });
                     uploadFile().whenComplete((){
+                    Map<String, dynamic> adData={
+                      'userName':this.userName,
+                      'uId':auth.currentUser.uid,
+                      'userNumber':this.userNumber,
+                      'itemPrice':this.itemPrice,
+                      'itemModel':this.itemModel,
+                      'itemColor':this.itemColor,
+                      'description':this.description,
+                      'urlImage1' : urlsList[0].toString(),
+                      'urlImage2' : urlsList[1].toString(),
+                      'urlImage3' : urlsList[2].toString(),
+                      'urlImage4' : urlsList[3].toString(),
+                      'urlImage5' : urlsList[4].toString(),
+                      'imgPro': userImageUrl,
+                      'lat': position.latitude,
+                      'lng': position.longitude,
+                      'address': completeAddress,
+                      'time':DateTime.now(),
+                      'status':"not approved",
+                    };
 
+                    FirebaseFirestore.instance.collection('items').add(adData).then((value){
+                      print("Data added successfully");
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                    }).catchError((onError){
+                      print(onError);
+                    });
                     });
 
 
